@@ -14,53 +14,58 @@
 </head>
 
 <body class="game" id="Game" onkeypress="main(event)">
-    <div class="container">
-        <div class="row" id="Banner">
-            <div class="col-md-12">
-                <img src="./assets/images/hangman-header-placeholder-lime-green.png" alt="Hangman Logo" />
-            </div>
-        </div>
-        <div class="row" id="DisplayWrapper">
-            <div class="col-md-6" id="Left">
-                <!-- Image of Word will go here -->
-            </div>
-            <div class="col-md-6" id="Right">
-                <div class="row">
-                    <div class="col">
-                        <p id="Msg">Press any key to get started!</p>
-                        <p>Wins: </p>
-                        <p id="GameWins"></p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <p>Current Word</p>
-                        <p id="CurrentWord"></p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <p>Number of guesses remaining:</p>
-                        <p id="GuessesRemaining"></p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <p>Letters Already Guessed:</p>
-                        <p id="UsedLetters"></p>
-                    </div>
+    <div class="wrapper">
+        <div class="container">
+            <!-- Content -->
+            <div class="row" id="Banner">
+                <div class="col-md-12 text-center">
+                    <h1>HANGMAN</h1>
                 </div>
             </div>
-        </div>
-        <!-- Hidden -->
-        <div class="row align-items-center hidden" id="GameEnded">
-            <div class="col">
-                <div class="row">
-                    <div class="col" id="TheWord">
+            <div class="row" id="DisplayWrapper">
+                <div class="col-md-6 col-sm-12" id="Left">
+                    <!-- Image of Word will go here -->
+                    <img id="TheHangman" src="./assets/images/hangman-start.png" alt="hangman" />
+                </div>
+                <div class="col-md-6 col-sm-12" id="Right">
+                    <div class="row">
+                        <div class="col">
+                            <p id="Msg">Press any key to get started!</p>
+                            <p>Wins: </p>
+                            <p id="GameWins"></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p>Current Word</p>
+                            <p id="CurrentWord"></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p>Number of guesses remaining:</p>
+                            <p id="GuessesRemaining"></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p>Letters Already Guessed:</p>
+                            <p id="UsedLetters"></p>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col" id="EndMsg">
+            </div>
+            <!-- /Content -->
+            <!-- Hidden -->
+            <div class="row align-items-center hidden" id="GameEnded">
+                <div class="col">
+                    <div class="row">
+                        <div class="col" id="TheWord">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col" id="EndMsg">
+                        </div>
                     </div>
                 </div>
             </div>

@@ -21,7 +21,7 @@ var game = document.getElementById("Game"),
     word_banner = document.getElementById("TheWord"),
     end_msg = document.getElementById("EndMsg");
 
-var guesses = 5;
+var guesses = 6;
 
 function main(event) {
     // Get character
@@ -145,6 +145,12 @@ function update_guesses_remaining() {
     var remaining = guesses_remaining.innerText;
     remaining = parseInt(remaining) - 1;
     guesses_remaining.innerHTML = remaining;
+    update_image(remaining + 1);
+    // fix
+    // Game over
+    // if (remaining == 0) {
+    //     end_game("lost", word);
+    // }
 }
 
 function end_game(status) {
@@ -174,4 +180,11 @@ function reset_game() {
     used_letters.innerHTML = '';
     used_letters_list.length = 0;
     letter_count = 0;
+}
+
+function update_image(n) {
+    if (n > 0) {
+        var img = document.getElementById("TheHangman");
+        img.src = "./assets/images/hangman-" + n + ".png";
+    }
 }
