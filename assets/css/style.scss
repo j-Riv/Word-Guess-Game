@@ -1,3 +1,6 @@
+    // Colors
+    $green: #066611;
+    $lime_green: #99f927;
     /* Fonts */
     /* oswald-regular - latin */
     
@@ -48,4 +51,45 @@
     
     * {
         font-family: 'Roboto', sans-serif;
+        color: $lime_green;
+    }
+    /* Index */
+    
+    body {
+        background-color: $green;
+        #Banner {
+            img {
+                max-width: 100%;
+                height: 200px;
+                display: block;
+                margin: 0 auto;
+            }
+        }
+        #DisplayWrapper {
+            border: 2px solid $lime_green;
+            border-radius: 10px;
+            text-align: center;
+            height: 350px;
+            #Right {
+                border-left: 1px solid $lime_green;
+            }
+            #CurrentWord {
+                span {
+                    padding: 5px;
+                }
+            }
+            #UsedLetters {
+                span {
+                    padding: 5px;
+                }
+            }
+        }
+        #GameWin {
+            font-size: 5em;
+            text-align: center;
+        }
+        #GameOver {
+            font-size: 5em;
+            text-align: center;
+        }
     }
