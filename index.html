@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Word Guess Game</title>
+    <title>Hangman</title>
     <!-- External CSS -->
-    <!-- <link rel="stylesheet" href="./assets/css/reset.css"> -->
+    <link rel="stylesheet" href="./assets/css/reset.css">
     <link rel="stylesheet" href="./assets/bootstrap-4.1.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/arcade-font.css">
     <link rel="stylesheet" href="./assets/css/style.css">
@@ -19,20 +19,20 @@
             <!-- Content -->
             <div class="row" id="Banner">
                 <div class="col-md-12 text-center">
-                    <h1>HANGMAN</h1>
+                    <img src="./assets/images/hangman-banner.png" alt="Hangman" />
+                    <p class="animated bounce" id="GameMsg">Press any key to get started!</p>
                 </div>
             </div>
-            <div class="row" id="DisplayWrapper">
+            <div class="row hidden" id="GameDisplay">
                 <div class="col-md-6 col-sm-12" id="Left">
-                    <!-- Image of Word will go here -->
                     <img id="TheHangman" src="./assets/images/hangman-start.png" alt="hangman" />
                 </div>
+                <!-- Right -->
                 <div class="col-md-6 col-sm-12" id="Right">
                     <div class="row">
                         <div class="col">
-                            <p id="Msg">Press any key to get started!</p>
-                            <p>Wins: </p>
-                            <p id="GameWins"></p>
+                            <p>Games Won: </p>
+                            <p id="WinsDisplay"></p>
                         </div>
                     </div>
                     <div class="row">
@@ -44,20 +44,21 @@
                     <div class="row">
                         <div class="col">
                             <p>Number of guesses remaining:</p>
-                            <p id="GuessesRemaining"></p>
+                            <p id="GuessesDisplay"></p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
                             <p>Letters Already Guessed:</p>
-                            <p id="UsedLetters"></p>
+                            <p id="UsedLettersDisplay"></p>
                         </div>
                     </div>
                 </div>
+                <!-- /Right -->
             </div>
             <!-- /Content -->
             <!-- Hidden -->
-            <div class="row align-items-center hidden" id="GameEnded">
+            <div class="row align-items-center hidden" id="GameEndedDisplay">
                 <div class="col">
                     <div class="row">
                         <div class="col" id="TheWord">
@@ -69,9 +70,11 @@
                     </div>
                 </div>
             </div>
+            <!-- /Hidden -->
         </div>
+        <!-- /Container -->
     </div>
-
+    <!-- /Wrapper -->
     <!-- Scripts -->
     <script src="./assets/javascript/jquery-3.3.1.slim.min.js"></script>
     <script src="./assets/javascript/popper.min.js"></script>
