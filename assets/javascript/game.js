@@ -11,6 +11,7 @@ var used_letters_list = [];
 var word = '';
 var game = document.getElementById("Game"),
     game_display = document.getElementById("DisplayWrapper"),
+    img = document.getElementById("TheHangman"),
     letter_count = 0,
     msg = document.getElementById("Msg"),
     wins_display = document.getElementById("GameWins"),
@@ -62,6 +63,8 @@ function game_setup(word) {
     // Reset
     reset_game();
     console.log("The Word: " + word);
+    // Update Image
+    img.src = "./assets/images/hangman-start.png";
     // Get Saved Wins if they exist & set them
     var wins = sessionStorage.getItem('gameWins');
     if (isNaN(wins) || wins === null) {
@@ -184,7 +187,6 @@ function reset_game() {
 
 function update_image(n) {
     if (n > 0) {
-        var img = document.getElementById("TheHangman");
         img.src = "./assets/images/hangman-" + n + ".png";
     }
 }

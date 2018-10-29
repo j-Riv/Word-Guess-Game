@@ -11,19 +11,12 @@
 
 html,
 body {
-  width: 100%;
+  margin: 0;
   height: 100%;
 }
 
 body {
   background-color: #066611;
-}
-
-body .wrapper {
-  min-height: 100%;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
 }
 
 body .wrapper #Banner h1 {
