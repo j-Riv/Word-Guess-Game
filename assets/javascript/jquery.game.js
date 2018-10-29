@@ -12,33 +12,32 @@ var guessesAllowed = 6,
     word = "",
     letterCount = 0;
 // Selectors
-var game = document.getElementById("Game"),
-    gameDisplay = document.getElementById("GameDisplay"),
-    hangmanImg = document.getElementById("TheHangman"),
-    gameMsg = document.getElementById("GameMsg"),
-    winsDisplay = document.getElementById("WinsDisplay"),
-    currentWord = document.getElementById("CurrentWord"),
-    guessesDisplay = document.getElementById("GuessesDisplay"),
-    usedLettersDisplay = document.getElementById("UsedLettersDisplay"),
-    gameEndDisplay = document.getElementById("GameEndedDisplay"),
-    wordDisplay = document.getElementById("TheWord"),
-    gameEndMsg = document.getElementById("EndMsg");
+var game = $('#Game'),
+    gameDisplay = $('#GameDisplay'),
+    hangmanImg = $('#TheHangman'),
+    gameMsg = $('#GameMsg'),
+    winsDisplay = $('#WinsDisplay'),
+    currentWord = $('#CurrentWord'),
+    guessesDisplay = $('#GuessesDisplay'),
+    usedLettersDisplay = $('#UsedLettersDisplay'),
+    gameEndDisplay = $('#GameEndedDisplay'),
+    wordDisplay = $('#TheWord'),
+    gameEndMsg = $('#EndMsg');
 
 function main(event) {
     // Get character
     var key = event.charCode || event.keyCode; // Get the Unicode value
     key = String.fromCharCode(key); // Convert the value into a character
-    var guessCount = guessesDisplay.innerText; // Guesses left
+    var guessCount = guessesDisplay.text(); // Guesses left
     // Update message after first key press
-    gameMsg.innerHTML = "";
+    gameMsg.text('');
     // Game started
-    if (game.classList.contains("game-started")) {
+    if (game.hasClass('game-started')) {
         // Check if key pressed is a letter
         if (is_letter(key)) {
             // Check if the letter has been used
             // If letter hasn't been used play the game
-            var isUsedLetter = usedLettersList.includes(key);
-            if (isUsedLetter != true) {
+            if ($.inArray(key, usedLettersList) == -1) {
                 // If letter hasn't been used & player has not run out of guesses, play the game
                 if (guessCount > 0) {
                     // Do stuff & update completed letters count
@@ -53,7 +52,7 @@ function main(event) {
         }
     } else {
         // Show main game display
-        gameDisplay.classList.remove("hidden");
+        gameDisplay.removeClass('hidden');
         // Select random word from list
         word = wordList[Math.floor(Math.random() * wordList.length)];
         // Setup game
@@ -66,14 +65,14 @@ function game_setup(word) {
     reset_game();
     // console.log("The Word: " + word);
     // Update Image
-    hangmanImg.src = "./assets/images/hangman-start.png";
+    hangmanImg.attr('src', './assets/images/hangman-start.png');
     // Get Saved Wins if they exist & set them
     var wins = sessionStorage.getItem('gameWins');
     if (isNaN(wins) || wins === null) {
         wins = 0;
         sessionStorage.setItem("gameWins", 0);
     }
-    winsDisplay.innerHTML = wins;
+    winsDisplay.text(wins);
     // Draw out blank word
     var wordLength = word.length,
         underscores = '';
@@ -81,18 +80,18 @@ function game_setup(word) {
         underscores += '<span id="u-' + i + '">_</span>';
     }
     // Insert underscores
-    currentWord.innerHTML = underscores;
-    guessesDisplay.innerHTML = guessesAllowed;
+    currentWord.append(underscores);
+    guessesDisplay.text(guessesAllowed);
 
-    if (gameDisplay.classList.contains("hidden")) {
-        gameDisplay.classList.remove("hidden");
+    if (gameDisplay.hasClass('hidden')) {
+        gameDisplay.removeClass('hidden');
     }
     // Game is Ready
-    if (game.classList.contains("game-ended")) {
-        gameEndDisplay.classList.add("hidden");
-        game.classList.remove("game-ended");
+    if (game.hasClass('game-ended')) {
+        gameEndDisplay.addClass('hidden');
+        game.removeClass('game-ended');
     }
-    game.classList.add("game-started");
+    game.addClass('game-started');
 }
 
 function do_stuff(word, letter, letterCount) {
@@ -132,46 +131,46 @@ function do_stuff(word, letter, letterCount) {
 }
 
 function update_current_word(idx, l) {
-    document.getElementById("u-" + idx).innerHTML = l;
+    $('#u-' + idx).text(l);
 }
 
 function update_used_letters(l) {
-    var span = document.createElement('span');
-    span.innerHTML = l;
-    usedLettersDisplay.appendChild(span);
+    var s = "<span>" + l + "</span>";
+    usedLettersDisplay.append(s);
 }
 
 function update_guesses_remaining() {
-    var remaining = guessesDisplay.innerText;
+    var remaining = guessesDisplay.text();
     remaining = parseInt(remaining) - 1;
     if (remaining == 0) {
         setTimeout(function() { end_game("lost", word); }, 1000);
     }
-    guessesDisplay.innerHTML = remaining;
+    guessesDisplay.text(remaining);
     update_image(remaining + 1);
 }
 
-function end_game(status) {
-    game.classList.add("game-ended");
-    gameDisplay.classList.add("hidden");
+function end_game(status, word) {
+    game.addClass('game-ended');
+    gameDisplay.addClass('hidden');
     // Retro.sx
     var sound = "";
     if (status == "Win") {
         var gamesWon = parseInt(sessionStorage.getItem("gameWins"));
         gamesWon = gamesWon + 1;
         sessionStorage.setItem("gameWins", gamesWon);
-        gameEndMsg.innerHTML = "YOU WIN!";
+        gameEndMsg.text('YOU WIN!');
         sound = "./assets/sounds/win.mp3";
     } else {
-        gameEndMsg.innerHTML = "GAME OVER!";
+        gameEndMsg.text('Game Over!')
         sound = "./assets/sounds/player-down.mp3";
     }
     var audio = new Audio(sound);
     audio.play();
-    wordDisplay.innerHTML = word;
-    gameMsg.innerHTML = "Press any key to get started!";
-    gameEndDisplay.classList.remove("hidden");
-    game.classList.remove("game-started");
+    wordDisplay.text(word);
+    gameMsg.text('Press any key to get started!');
+    gameEndDisplay.removeClass('hidden');
+    game.removeClass('game-started');
+    currentWord.empty();
 }
 
 function is_letter(key) {
@@ -180,13 +179,13 @@ function is_letter(key) {
 }
 
 function reset_game() {
-    usedLettersDisplay.innerHTML = '';
+    usedLettersDisplay.text('');
     usedLettersList.length = 0;
     letterCount = 0;
 }
 
 function update_image(n) {
     if (n > 0) {
-        hangmanImg.src = "./assets/images/hangman-" + n + ".png";
+        hangmanImg.attr("src", "./assets/images/hangman-" + n + ".png");
     }
 }
