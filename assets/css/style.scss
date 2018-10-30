@@ -8,7 +8,7 @@
         /* Helpers */
         
         .hidden {
-            display: none;
+            display: none !important;
         }
         /* Animations */
         
@@ -108,6 +108,7 @@
                     height: $display_height;
                     #EndMsg {
                         font-size: 10em;
+                        font-size: 10vw;
                     }
                     #TheWord {
                         background-color: $lime_green;
@@ -128,6 +129,46 @@
                     min-height: 0;
                     display: block;
                     align-items: unset;
+                    // Mobile Keyboard only displays <= 768w
+                    #MobileStart {
+                        padding: 10px 20px;
+                        border: 2px dashed $lime_green;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        transition: 1s all;
+                        width: max-content;
+                        display: block;
+                        margin: 0 auto;
+                        &:hover {
+                            background-color: $lime_green;
+                            color: $green;
+                        }
+                    }
+                    #MobileKeyboard {
+                        margin: 0 auto;
+                        display: block;
+                        text-align: center;
+                        padding: 20px;
+                        ul {
+                            li {
+                                display: inline-block;
+                                padding: 2px 7px;
+                                border: 2px dashed $lime_green;
+                                border-radius: 5px;
+                                margin: 0 5px;
+                                transition: 1s all;
+                                cursor: pointer;
+                                &:hover {
+                                    background-color: $lime_green;
+                                    color: $green;
+                                }
+                                &.key-disabled {
+                                    background-color: $lime_green;
+                                    color: $green;
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

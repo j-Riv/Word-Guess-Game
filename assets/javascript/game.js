@@ -23,7 +23,9 @@ var game = document.getElementById("Game"),
     usedLettersDisplay = document.getElementById("UsedLettersDisplay"),
     gameEndDisplay = document.getElementById("GameEndedDisplay"),
     wordDisplay = document.getElementById("TheWord"),
-    gameEndMsg = document.getElementById("EndMsg");
+    gameEndMsg = document.getElementById("EndMsg"),
+    mobileKeyboard = document.getElementById('MobileKeyboard'),
+    mobileStart = document.getElementById("MobileStart");
 
 // canvas
 var hangman = document.getElementById("HangmanCanvas");
@@ -32,10 +34,8 @@ ctx.beginPath();
 ctx.strokeStyle = limeGreen;
 ctx.lineWidth = 2;
 
-function main(event) {
-    // Get character
-    var key = event.charCode || event.keyCode; // Get the Unicode value
-    key = String.fromCharCode(key); // Convert the value into a character
+// add main here -->
+function play(key) {
     var guessCount = guessesDisplay.innerText; // Guesses left
     // Update message after first key press
     gameMsg.innerHTML = "";
@@ -72,6 +72,10 @@ function main(event) {
 function game_setup(word) {
     // Reset
     reset_game();
+    // Mobile Keyboard
+    if (game.classList.contains("is-mobile")) {
+        mobileKeyboard.classList.remove("hidden");
+    }
     // console.log("The Word: " + word);
     // Update Image
     frame();
@@ -163,6 +167,11 @@ function update_guesses_remaining() {
 function end_game(status) {
     game.classList.add("game-ended");
     gameDisplay.classList.add("hidden");
+    if (game.classList.contains("is-mobile")) {
+        mobileKeyboard.classList.add("hidden");
+        reset_keyboard();
+        mobileStart.classList.remove("hidden");
+    }
     // Retro.sx
     var sound = "";
     if (status == "Win") {
@@ -250,3 +259,94 @@ var bodyPart = [rightLeg, leftLeg, rightArm, leftArm, torso, head];
 function update_man(n) {
     bodyPart[n]();
 }
+
+// Mobile Keyboard
+var alphabet = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
+    'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
+    'z', 'x', 'c', 'v', 'b', 'n', 'm'
+];
+var keyRow1 = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'];
+var keyRow2 = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
+var keyRow3 = ['z', 'x', 'c', 'v', 'b', 'n', 'm'];
+
+var keyRows = [
+    ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+    ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+    ['z', 'x', 'c', 'v', 'b', 'n', 'm']
+];
+
+// create alphabet ul
+function build_keyboard() {
+    for (var i = 0; i < keyRows.length; i++) {
+        var keyboardKeys = document.createElement('ul');
+        keyboardKeys.id = 'KeyboardRow-' + i;
+        for (var x = 0; x < keyRows[i].length; x++) {
+            letterKey = document.createElement('li');
+            letterKey.id = 'letter-' + keyRows[i][x];
+            letterKey.innerHTML = keyRows[i][x];
+            // mobile_keypressed();
+            mobileKeyboard.appendChild(keyboardKeys);
+            keyboardKeys.appendChild(letterKey);
+        }
+    }
+}
+
+function reset_keyboard() {
+    mobileKeyboard.innerHTML = "";
+    build_keyboard();
+}
+
+function getEventTarget(e) {
+    e = e || window.event;
+    return e.target || e.srcElement;
+}
+
+function mobile_keypressed() {
+    var key = '';
+    mobileKeyboard.onclick = function(event) {
+        var target = getEventTarget(event);
+        key = target.innerHTML;
+        console.log("Keypressed: " + key);
+        play(key);
+        // Disable key
+        var pressedKey = document.getElementById("letter-" + key);
+        console.log("pressedKey: " + pressedKey);
+        pressedKey.classList.add('key-disabled');
+    }
+}
+
+function keypressed(event) {
+    // Get character
+    var key = event.charCode || event.keyCode; // Get the Unicode value
+    key = String.fromCharCode(key); // Convert the value into a character
+    // play game
+    play(key);
+}
+
+function mobile_start() {
+    mobileStart.onclick = function(event) {
+        mobileStart.classList.add("hidden");
+        mobileKeyboard.classList.remove("hidden");
+        play("");
+        console.log("clicked start");
+    }
+}
+
+function if_mobile() {
+    var w = window,
+        d = document,
+        de = d.documentElement,
+        b = d.getElementsByTagName('body')[0],
+        width = w.innerWidth || e.clientWidth || g.clientWidth,
+        height = w.innerHeight || e.clientHeight || g.clientHeight;
+    console.log("w.innerWidth || e.clientWidth || g.clientWidth" + width);
+
+    if (width <= 768) {
+        game.classList.add("is-mobile");
+        mobile_start();
+        build_keyboard();
+        mobile_keypressed();
+    }
+}
+
+if_mobile();
