@@ -213,45 +213,45 @@ function draw(fromX, fromY, toX, toY) {
     ctx.lineTo(toX, toY);
     ctx.stroke();
 }
-// frame
+// Frame
 function frame() {
     ctx.setLineDash([5, 5]);
     // top line
-    draw(190, 20, 390, 20);
+    draw(140, 20, 290, 20);
     // vertical line
-    draw(380, 10, 380, 390);
+    draw(280, 10, 280, 390);
     // bottom lines
-    draw(10, 380, 390, 380);
-    draw(10, 390, 390, 390);
+    draw(10, 380, 290, 380);
+    draw(10, 390, 290, 390);
     ctx.setLineDash([]);
 }
 // body parts
 function head() {
-    draw(200, 20, 200, 40);
+    draw(150, 20, 150, 40);
     // circle
     ctx.beginPath();
-    ctx.arc(200, 65, 25, 0, 2 * Math.PI);
+    ctx.arc(150, 65, 25, 0, 2 * Math.PI);
     ctx.stroke();
 }
 
 function torso() {
-    draw(200, 90, 200, 160);
+    draw(150, 90, 150, 160);
 }
 
 function leftArm() {
-    draw(200, 90, 150, 140);
+    draw(150, 90, 100, 140);
 }
 
 function rightArm() {
-    draw(200, 90, 250, 140);
+    draw(150, 90, 200, 140);
 }
 
 function leftLeg() {
-    draw(200, 160, 150, 210);
+    draw(150, 160, 100, 210);
 }
 
 function rightLeg() {
-    draw(200, 160, 250, 210);
+    draw(150, 160, 200, 210);
 }
 
 var bodyPart = [rightLeg, leftLeg, rightArm, leftArm, torso, head];
