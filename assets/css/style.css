@@ -86,7 +86,6 @@ body .wrapper #GameDisplay #Left #TheHangman {
 
 body .wrapper #GameDisplay #Right {
   height: 400px;
-  border-left: 2px dashed #99f927;
 }
 
 body .wrapper #GameDisplay #Right .row {
