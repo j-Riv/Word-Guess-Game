@@ -145,12 +145,12 @@ body .wrapper #GameEndedDisplay #TheWord {
     margin: 0 auto;
     display: block;
     text-align: center;
-    padding: 20px;
+    padding: 20px 0;
   }
   body .wrapper #MobileKeyboard ul li {
     display: inline-block;
     font-size: 1em;
-    padding: 2px 5px;
+    padding: 2px 7px;
     border: 2px dashed #99f927;
     border-radius: 5px;
     margin: 0 5px;

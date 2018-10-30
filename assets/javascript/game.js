@@ -24,8 +24,7 @@ var game = document.getElementById("Game"),
     gameEndDisplay = document.getElementById("GameEndedDisplay"),
     wordDisplay = document.getElementById("TheWord"),
     gameEndMsg = document.getElementById("EndMsg"),
-    mobileKeyboard = document.getElementById('MobileKeyboard'),
-    mobileStart = document.getElementById("MobileStart");
+    mobileKeyboard = document.getElementById('MobileKeyboard');
 
 // canvas
 var hangman = document.getElementById("HangmanCanvas");
@@ -34,7 +33,15 @@ ctx.beginPath();
 ctx.strokeStyle = limeGreen;
 ctx.lineWidth = 2;
 
-// add main here -->
+function keypressed(event) {
+    // Get character
+    var key = event.charCode || event.keyCode; // Get the Unicode value
+    key = String.fromCharCode(key); // Convert the value into a character
+    // play game
+    play(key);
+}
+
+// Main
 function play(key) {
     var guessCount = guessesDisplay.innerText; // Guesses left
     // Update message after first key press
@@ -170,7 +177,6 @@ function end_game(status) {
     if (game.classList.contains("is-mobile")) {
         mobileKeyboard.classList.add("hidden");
         reset_keyboard();
-        mobileStart.classList.remove("hidden");
     }
     // Retro.sx
     var sound = "";
@@ -261,21 +267,12 @@ function update_man(n) {
 }
 
 // Mobile Keyboard
-var alphabet = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
-    'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
-    'z', 'x', 'c', 'v', 'b', 'n', 'm'
-];
-var keyRow1 = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'];
-var keyRow2 = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
-var keyRow3 = ['z', 'x', 'c', 'v', 'b', 'n', 'm'];
-
 var keyRows = [
     ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
     ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
     ['z', 'x', 'c', 'v', 'b', 'n', 'm']
 ];
 
-// create alphabet ul
 function build_keyboard() {
     for (var i = 0; i < keyRows.length; i++) {
         var keyboardKeys = document.createElement('ul');
@@ -306,29 +303,17 @@ function mobile_keypressed() {
     mobileKeyboard.onclick = function(event) {
         var target = getEventTarget(event);
         key = target.innerHTML;
-        console.log("Keypressed: " + key);
         play(key);
         // Disable key
         var pressedKey = document.getElementById("letter-" + key);
-        console.log("pressedKey: " + pressedKey);
         pressedKey.classList.add('key-disabled');
     }
 }
 
-function keypressed(event) {
-    // Get character
-    var key = event.charCode || event.keyCode; // Get the Unicode value
-    key = String.fromCharCode(key); // Convert the value into a character
-    // play game
-    play(key);
-}
-
 function mobile_start() {
-    mobileStart.onclick = function(event) {
-        mobileStart.classList.add("hidden");
+    GameMsg.onclick = function(event) {
         mobileKeyboard.classList.remove("hidden");
         play("");
-        console.log("clicked start");
     }
 }
 
@@ -349,4 +334,5 @@ function if_mobile() {
     }
 }
 
+// Check if mobile
 if_mobile();
