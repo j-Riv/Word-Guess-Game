@@ -14,6 +14,7 @@ var guessesAllowed = 6,
     limeGreen = "#99f927";
 // Selectors
 var game = document.getElementById("Game"),
+    banner = document.getElementById("Banner"),
     gameDisplay = document.getElementById("GameDisplay"),
     hangmanImg = document.getElementById("TheHangman"),
     gameMsg = document.getElementById("GameMsg"),
@@ -311,7 +312,7 @@ function mobile_keypressed() {
 }
 
 function mobile_start() {
-    Game.onclick = function(event) {
+    banner.onclick = function(event) {
         mobileKeyboard.classList.remove("hidden");
         play("");
     }
