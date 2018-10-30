@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
-<body class="game" id="Game" onkeypress="main(event)">
+<body class="game" id="Game" onkeypress="keypressed(event)">
     <div class="wrapper">
         <div class="container">
             <!-- Content -->
@@ -62,7 +62,7 @@
             </div>
             <!-- /Content -->
             <!-- Hidden -->
-            <div class="row align-items-center hidden" id="GameEndedDisplay">
+            <div class="row hidden" id="GameEndedDisplay">
                 <div class="col">
                     <div class="row">
                         <div class="col" id="TheWord">
@@ -75,6 +75,19 @@
                 </div>
             </div>
             <!-- /Hidden -->
+            <!-- Mobile Keyboard-->
+            <div class="row">
+                <div class="col">
+                    <div id="MobileStart">
+                        Start
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col hidden" id="MobileKeyboard">
+                </div>
+            </div>
+            <!-- /Mobile Keyboard-->
         </div>
         <!-- /Container -->
     </div>

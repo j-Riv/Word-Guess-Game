@@ -1,6 +1,6 @@
 /* Helpers */
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 /* Animations */
@@ -108,6 +108,7 @@ body .wrapper #GameEndedDisplay {
 
 body .wrapper #GameEndedDisplay #EndMsg {
   font-size: 10em;
+  font-size: 10vw;
 }
 
 body .wrapper #GameEndedDisplay #TheWord {
@@ -125,5 +126,42 @@ body .wrapper #GameEndedDisplay #TheWord {
     min-height: 0;
     display: block;
     align-items: unset;
+  }
+  body .wrapper #MobileStart {
+    padding: 10px 20px;
+    border: 2px dashed #99f927;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 1s all;
+    width: max-content;
+    display: block;
+    margin: 0 auto;
+  }
+  body .wrapper #MobileStart:hover {
+    background-color: #99f927;
+    color: #066611;
+  }
+  body .wrapper #MobileKeyboard {
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+    padding: 20px;
+  }
+  body .wrapper #MobileKeyboard ul li {
+    display: inline-block;
+    padding: 2px 7px;
+    border: 2px dashed #99f927;
+    border-radius: 5px;
+    margin: 0 5px;
+    transition: 1s all;
+    cursor: pointer;
+  }
+  body .wrapper #MobileKeyboard ul li:hover {
+    background-color: #99f927;
+    color: #066611;
+  }
+  body .wrapper #MobileKeyboard ul li.key-disabled {
+    background-color: #99f927;
+    color: #066611;
   }
 }
