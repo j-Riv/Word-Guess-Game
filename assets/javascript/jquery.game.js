@@ -10,7 +10,8 @@ var wordList = [
 var guessesAllowed = 6,
     usedLettersList = [],
     word = "",
-    letterCount = 0;
+    letterCount = 0,
+    limeGreen = "#99f927";
 // Selectors
 var game = $('#Game'),
     gameDisplay = $('#GameDisplay'),
@@ -23,6 +24,14 @@ var game = $('#Game'),
     gameEndDisplay = $('#GameEndedDisplay'),
     wordDisplay = $('#TheWord'),
     gameEndMsg = $('#EndMsg');
+
+// canvas
+var hangman = document.getElementById("HangmanCanvas");
+// var hangman = $('#HangmanCanvas');
+var ctx = hangman.getContext('2d');
+ctx.beginPath();
+ctx.strokeStyle = limeGreen;
+ctx.lineWidth = 2;
 
 function main(event) {
     // Get character
@@ -65,7 +74,7 @@ function game_setup(word) {
     reset_game();
     // console.log("The Word: " + word);
     // Update Image
-    hangmanImg.attr('src', './assets/images/hangman-start.png');
+    frame();
     // Get Saved Wins if they exist & set them
     var wins = sessionStorage.getItem('gameWins');
     if (isNaN(wins) || wins === null) {
@@ -146,7 +155,7 @@ function update_guesses_remaining() {
         setTimeout(function() { end_game("lost", word); }, 1000);
     }
     guessesDisplay.text(remaining);
-    update_image(remaining + 1);
+    update_man(remaining);
 }
 
 function end_game(status, word) {
@@ -182,10 +191,60 @@ function reset_game() {
     usedLettersDisplay.text('');
     usedLettersList.length = 0;
     letterCount = 0;
+    ctx.clearRect(0, 0, hangman.width, hangman.height);
+    ctx.beginPath();
 }
 
-function update_image(n) {
-    if (n > 0) {
-        hangmanImg.attr("src", "./assets/images/hangman-" + n + ".png");
-    }
+// Hangman Canvas
+function draw(fromX, fromY, toX, toY) {
+    ctx.beginPath();
+    ctx.moveTo(fromX, fromY);
+    ctx.lineTo(toX, toY);
+    ctx.stroke();
+}
+// frame
+function frame() {
+    ctx.setLineDash([5, 5]);
+    // top line
+    draw(190, 20, 390, 20);
+    // vertical line
+    draw(380, 10, 380, 390);
+    // bottom lines
+    draw(10, 380, 390, 380);
+    draw(10, 390, 390, 390);
+    ctx.setLineDash([]);
+}
+// body parts
+function head() {
+    draw(200, 20, 200, 40);
+    // circle
+    ctx.beginPath();
+    ctx.arc(200, 65, 25, 0, 2 * Math.PI);
+    ctx.stroke();
+}
+
+function torso() {
+    draw(200, 90, 200, 160);
+}
+
+function leftArm() {
+    draw(200, 90, 150, 140);
+}
+
+function rightArm() {
+    draw(200, 90, 250, 140);
+}
+
+function leftLeg() {
+    draw(200, 160, 150, 210);
+}
+
+function rightLeg() {
+    draw(200, 160, 250, 210);
+}
+
+var bodyPart = [rightLeg, leftLeg, rightArm, leftArm, torso, head];
+
+function update_man(n) {
+    bodyPart[n]();
 }

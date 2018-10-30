@@ -63,8 +63,7 @@ function main(event) {
         // Show main game display
         gameDisplay.classList.remove("hidden");
         // Select random word from list
-        // word = wordList[Math.floor(Math.random() * wordList.length)];
-        word = "usb";
+        word = wordList[Math.floor(Math.random() * wordList.length)];
         // Setup game
         game_setup(word);
     }
@@ -75,7 +74,6 @@ function game_setup(word) {
     reset_game();
     // console.log("The Word: " + word);
     // Update Image
-    // hangmanImg.src = "./assets/images/hangman-start.png";
     frame();
     // Get Saved Wins if they exist & set them
     var wins = sessionStorage.getItem('gameWins');
@@ -159,7 +157,6 @@ function update_guesses_remaining() {
         setTimeout(function() { end_game("lost", word); }, 1000);
     }
     guessesDisplay.innerHTML = remaining;
-    // update_image(remaining + 1);
     update_man(remaining);
 }
 
@@ -196,22 +193,20 @@ function reset_game() {
     usedLettersList.length = 0;
     letterCount = 0;
     // reset canvas
-    ctx.clearRect(0, 0, 400, 400);
+    ctx.clearRect(0, 0, hangman.width, hangman.height);
+    ctx.beginPath();
 }
 
-// function update_image(n) {
-//     if (n > 0) {
-//         hangmanImg.src = "./assets/images/hangman-" + n + ".png";
-//     }
-// }
-
+// Hangman Canvas
 function draw(fromX, fromY, toX, toY) {
+    ctx.beginPath();
     ctx.moveTo(fromX, fromY);
     ctx.lineTo(toX, toY);
     ctx.stroke();
 }
 // frame
 function frame() {
+    ctx.setLineDash([5, 5]);
     // top line
     draw(190, 20, 390, 20);
     // vertical line
@@ -219,6 +214,7 @@ function frame() {
     // bottom lines
     draw(10, 380, 390, 380);
     draw(10, 390, 390, 390);
+    ctx.setLineDash([]);
 }
 // body parts
 function head() {
