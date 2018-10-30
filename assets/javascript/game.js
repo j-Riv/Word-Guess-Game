@@ -10,7 +10,8 @@ var wordList = [
 var guessesAllowed = 6,
     usedLettersList = [],
     word = "",
-    letterCount = 0;
+    letterCount = 0,
+    limeGreen = "#99f927";
 // Selectors
 var game = document.getElementById("Game"),
     gameDisplay = document.getElementById("GameDisplay"),
@@ -23,6 +24,13 @@ var game = document.getElementById("Game"),
     gameEndDisplay = document.getElementById("GameEndedDisplay"),
     wordDisplay = document.getElementById("TheWord"),
     gameEndMsg = document.getElementById("EndMsg");
+
+// canvas
+var hangman = document.getElementById("HangmanCanvas");
+var ctx = hangman.getContext('2d');
+ctx.beginPath();
+ctx.strokeStyle = limeGreen;
+ctx.lineWidth = 2;
 
 function main(event) {
     // Get character
@@ -55,7 +63,8 @@ function main(event) {
         // Show main game display
         gameDisplay.classList.remove("hidden");
         // Select random word from list
-        word = wordList[Math.floor(Math.random() * wordList.length)];
+        // word = wordList[Math.floor(Math.random() * wordList.length)];
+        word = "usb";
         // Setup game
         game_setup(word);
     }
@@ -66,7 +75,8 @@ function game_setup(word) {
     reset_game();
     // console.log("The Word: " + word);
     // Update Image
-    hangmanImg.src = "./assets/images/hangman-start.png";
+    // hangmanImg.src = "./assets/images/hangman-start.png";
+    frame();
     // Get Saved Wins if they exist & set them
     var wins = sessionStorage.getItem('gameWins');
     if (isNaN(wins) || wins === null) {
@@ -145,10 +155,12 @@ function update_guesses_remaining() {
     var remaining = guessesDisplay.innerText;
     remaining = parseInt(remaining) - 1;
     if (remaining == 0) {
+        update_man(0);
         setTimeout(function() { end_game("lost", word); }, 1000);
     }
     guessesDisplay.innerHTML = remaining;
-    update_image(remaining + 1);
+    // update_image(remaining + 1);
+    update_man(remaining);
 }
 
 function end_game(status) {
@@ -183,10 +195,62 @@ function reset_game() {
     usedLettersDisplay.innerHTML = '';
     usedLettersList.length = 0;
     letterCount = 0;
+    // reset canvas
+    ctx.clearRect(0, 0, 400, 400);
 }
 
-function update_image(n) {
-    if (n > 0) {
-        hangmanImg.src = "./assets/images/hangman-" + n + ".png";
-    }
+// function update_image(n) {
+//     if (n > 0) {
+//         hangmanImg.src = "./assets/images/hangman-" + n + ".png";
+//     }
+// }
+
+function draw(fromX, fromY, toX, toY) {
+    ctx.moveTo(fromX, fromY);
+    ctx.lineTo(toX, toY);
+    ctx.stroke();
+}
+// frame
+function frame() {
+    // top line
+    draw(190, 20, 390, 20);
+    // vertical line
+    draw(380, 10, 380, 390);
+    // bottom lines
+    draw(10, 380, 390, 380);
+    draw(10, 390, 390, 390);
+}
+// body parts
+function head() {
+    draw(200, 20, 200, 40);
+    // circle
+    ctx.beginPath();
+    ctx.arc(200, 65, 25, 0, 2 * Math.PI);
+    ctx.stroke();
+}
+
+function torso() {
+    draw(200, 90, 200, 160);
+}
+
+function leftArm() {
+    draw(200, 90, 150, 140);
+}
+
+function rightArm() {
+    draw(200, 90, 250, 140);
+}
+
+function leftLeg() {
+    draw(200, 160, 150, 210);
+}
+
+function rightLeg() {
+    draw(200, 160, 250, 210);
+}
+
+var bodyPart = [rightLeg, leftLeg, rightArm, leftArm, torso, head];
+
+function update_man(n) {
+    bodyPart[n]();
 }
