@@ -311,7 +311,7 @@ function mobile_keypressed() {
 }
 
 function mobile_start() {
-    GameMsg.onclick = function(event) {
+    Game.onclick = function(event) {
         mobileKeyboard.classList.remove("hidden");
         play("");
     }
