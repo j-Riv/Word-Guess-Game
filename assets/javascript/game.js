@@ -34,6 +34,7 @@ ctx.beginPath();
 ctx.strokeStyle = limeGreen;
 ctx.lineWidth = 2;
 
+// Desktop keypress
 function keypressed(event) {
     // Get character
     var key = event.charCode || event.keyCode; // Get the Unicode value
@@ -85,7 +86,7 @@ function game_setup(word) {
         mobileKeyboard.classList.remove("hidden");
     }
     // console.log("The Word: " + word);
-    // Update Image
+    // Update Image - draw image
     frame();
     // Get Saved Wins if they exist & set them
     var wins = sessionStorage.getItem('gameWins');
@@ -94,7 +95,7 @@ function game_setup(word) {
         sessionStorage.setItem("gameWins", 0);
     }
     winsDisplay.innerHTML = wins;
-    // Draw out blank word
+    // Build underscores
     var wordLength = word.length,
         underscores = '';
     for (var i = 0; i < wordLength; i++) {
@@ -103,7 +104,7 @@ function game_setup(word) {
     // Insert underscores
     currentWord.innerHTML = underscores;
     guessesDisplay.innerHTML = guessesAllowed;
-
+    // Unhide display
     if (gameDisplay.classList.contains("hidden")) {
         gameDisplay.classList.remove("hidden");
     }
@@ -115,6 +116,7 @@ function game_setup(word) {
     game.classList.add("game-started");
 }
 
+// For lack of a better name
 function do_stuff(word, letter, letterCount) {
     var wordLength = word.length,
         index = [],
@@ -151,16 +153,19 @@ function do_stuff(word, letter, letterCount) {
     return letterCount;
 }
 
+// Updates current word with correct letters
 function update_current_word(idx, l) {
     document.getElementById("u-" + idx).innerHTML = l;
 }
 
+// Updates used letters list
 function update_used_letters(l) {
     var span = document.createElement('span');
     span.innerHTML = l;
     usedLettersDisplay.appendChild(span);
 }
 
+// Updates lives remaining
 function update_guesses_remaining() {
     var remaining = guessesDisplay.innerText;
     remaining = parseInt(remaining) - 1;
@@ -172,6 +177,7 @@ function update_guesses_remaining() {
     update_man(remaining);
 }
 
+// Ends the game
 function end_game(status) {
     game.classList.add("game-ended");
     gameDisplay.classList.add("hidden");
@@ -179,7 +185,7 @@ function end_game(status) {
         mobileKeyboard.classList.add("hidden");
         reset_keyboard();
     }
-    // Retro.sx
+    // Sounds from Retro.sx
     var sound = "";
     if (status == "Win") {
         var gamesWon = parseInt(sessionStorage.getItem("gameWins"));
@@ -199,11 +205,13 @@ function end_game(status) {
     game.classList.remove("game-started");
 }
 
+// Returns true if key is a letter
 function is_letter(key) {
     var objRegExp = /^[a-z]+$/;
     return objRegExp.test(key);
 }
 
+// Resets the game display
 function reset_game() {
     usedLettersDisplay.innerHTML = '';
     usedLettersList.length = 0;
@@ -213,7 +221,7 @@ function reset_game() {
     ctx.beginPath();
 }
 
-// Hangman Canvas
+// Draws the hangman canvas
 function draw(fromX, fromY, toX, toY) {
     ctx.beginPath();
     ctx.moveTo(fromX, fromY);
@@ -263,17 +271,19 @@ function rightLeg() {
 
 var bodyPart = [rightLeg, leftLeg, rightArm, leftArm, torso, head];
 
+// Updates the hangman
 function update_man(n) {
     bodyPart[n]();
 }
 
-// Mobile Keyboard
+// Mobile Keyboard --->
 var keyRows = [
     ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
     ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
     ['z', 'x', 'c', 'v', 'b', 'n', 'm']
 ];
 
+// Builds the mobile keyboard
 function build_keyboard() {
     for (var i = 0; i < keyRows.length; i++) {
         var keyboardKeys = document.createElement('ul');
@@ -289,16 +299,19 @@ function build_keyboard() {
     }
 }
 
+// Resets the mobile keyboard
 function reset_keyboard() {
     mobileKeyboard.innerHTML = "";
     build_keyboard();
 }
 
+// Gets the element clicked
 function getEventTarget(e) {
     e = e || window.event;
     return e.target || e.srcElement;
 }
 
+// Mobile keypress
 function mobile_keypressed() {
     var key = '';
     mobileKeyboard.onclick = function(event) {
@@ -311,6 +324,7 @@ function mobile_keypressed() {
     }
 }
 
+// Mobile start
 function mobile_start() {
     banner.onclick = function(event) {
         mobileKeyboard.classList.remove("hidden");
@@ -318,6 +332,7 @@ function mobile_start() {
     }
 }
 
+// Checks if on mobile (screen width)
 function if_mobile() {
     var w = window,
         d = document,
@@ -326,7 +341,7 @@ function if_mobile() {
         width = w.innerWidth || e.clientWidth || g.clientWidth,
         height = w.innerHeight || e.clientHeight || g.clientHeight;
     console.log("w.innerWidth || e.clientWidth || g.clientWidth" + width);
-
+    // if mobile run mobile functions
     if (width <= 768) {
         game.classList.add("is-mobile");
         mobile_start();
