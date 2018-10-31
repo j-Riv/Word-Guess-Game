@@ -55,7 +55,7 @@ function play(key) {
             // Check if the letter has been used
             // If letter hasn't been used play the game
             var isUsedLetter = usedLettersList.includes(key);
-            if (isUsedLetter != true) {
+            if (!isUsedLetter) {
                 // If letter hasn't been used & player has not run out of guesses, play the game
                 if (guessCount > 0) {
                     // Do stuff & update completed letters count
@@ -292,7 +292,6 @@ function build_keyboard() {
             letterKey = document.createElement('li');
             letterKey.id = 'letter-' + keyRows[i][x];
             letterKey.innerHTML = keyRows[i][x];
-            // mobile_keypressed();
             mobileKeyboard.appendChild(keyboardKeys);
             keyboardKeys.appendChild(letterKey);
         }
@@ -333,7 +332,7 @@ function mobile_start() {
 }
 
 // Checks if on mobile (screen width)
-function if_mobile() {
+function mobile_check() {
     var w = window,
         d = document,
         de = d.documentElement,
@@ -351,4 +350,4 @@ function if_mobile() {
 }
 
 // Check if mobile
-if_mobile();
+mobile_check();
