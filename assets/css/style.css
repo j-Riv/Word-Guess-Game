@@ -108,13 +108,14 @@ body .wrapper #GameEndedDisplay {
 
 body .wrapper #GameEndedDisplay #EndMsg {
   font-size: 10em;
-  font-size: 10vw;
+  font-size: 8vw;
 }
 
 body .wrapper #GameEndedDisplay #TheWord {
   background-color: #99f927;
   color: #066611;
   font-size: 5em;
+  font-size: 8vw;
   border: 2px solid #99f927;
   border-radius: 25px;
 }

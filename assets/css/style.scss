@@ -108,12 +108,13 @@
                     height: $display_height;
                     #EndMsg {
                         font-size: 10em;
-                        font-size: 10vw;
+                        font-size: 8vw;
                     }
                     #TheWord {
                         background-color: $lime_green;
                         color: $green;
                         font-size: 5em;
+                        font-size: 8vw;
                         border: 2px solid $lime_green;
                         border-radius: 25px;
                     }

@@ -5,7 +5,11 @@ var wordList = [
     "Mouse",
     "Bluetooth",
     "Motherboard",
-    "USB"
+    "USB",
+    "Processor",
+    "Memory",
+    "Ram",
+    "GPU"
 ];
 var guessesAllowed = 6,
     usedLettersList = [],
@@ -35,12 +39,13 @@ ctx.strokeStyle = limeGreen;
 ctx.lineWidth = 2;
 
 // Desktop keypress
-function keypressed(event) {
+function keypressed(e) {
     // Get character
-    var key = event.charCode || event.keyCode; // Get the Unicode value
-    key = String.fromCharCode(key); // Convert the value into a character
+    // var key = event.charCode || event.keyCode; // Get the Unicode value
+    // key = String.fromCharCode(key); // Convert the value into a character
+
     // play game
-    play(key);
+    play(e.key);
 }
 
 // Main
@@ -79,14 +84,15 @@ function play(key) {
 }
 
 function game_setup(word) {
-    // Reset
-    reset_game();
-    // Mobile Keyboard
-    if (game.classList.contains("is-mobile")) {
-        mobileKeyboard.classList.remove("hidden");
-    }
     // console.log("The Word: " + word);
-    // Update Image - draw image
+    // Set/Reset Game
+    usedLettersDisplay.innerHTML = '';
+    usedLettersList.length = 0;
+    letterCount = 0;
+    // Reset canvas
+    ctx.clearRect(0, 0, hangman.width, hangman.height);
+    ctx.beginPath();
+    // Redraw Frame();
     frame();
     // Get Saved Wins if they exist & set them
     var wins = sessionStorage.getItem('gameWins');
@@ -94,7 +100,7 @@ function game_setup(word) {
         wins = 0;
         sessionStorage.setItem("gameWins", 0);
     }
-    winsDisplay.innerHTML = wins;
+    winsDisplay.textContent = wins;
     // Build underscores
     var wordLength = word.length,
         underscores = '';
@@ -103,16 +109,21 @@ function game_setup(word) {
     }
     // Insert underscores
     currentWord.innerHTML = underscores;
-    guessesDisplay.innerHTML = guessesAllowed;
-    // Unhide display
+    guessesDisplay.textContent = guessesAllowed;
+    // Unhide display - Get Game Ready
     if (gameDisplay.classList.contains("hidden")) {
         gameDisplay.classList.remove("hidden");
     }
-    // Game is Ready
+    // Mobile keyboard - build and display
+    if (game.classList.contains("is-mobile")) {
+        mobileKeyboard.classList.remove("hidden");
+    }
+    // Hide end game display if shown
     if (game.classList.contains("game-ended")) {
         gameEndDisplay.classList.add("hidden");
         game.classList.remove("game-ended");
     }
+    // Add class to body
     game.classList.add("game-started");
 }
 
@@ -122,6 +133,7 @@ function do_stuff(word, letter, letterCount) {
         index = [],
         letter = letter.toUpperCase(),
         word = word.toUpperCase();
+    // Chec for multiple occurences
     for (var i = 0; i < wordLength; i++) {
         var character = word.charAt(i);
         if (character == letter) {
@@ -129,7 +141,7 @@ function do_stuff(word, letter, letterCount) {
         }
     }
     var indexLength = index.length;
-    // if character in word
+    // If character in word
     if (indexLength > 0) {
         // if character in word more than once
         if (indexLength > 1) {
@@ -146,7 +158,7 @@ function do_stuff(word, letter, letterCount) {
         update_used_letters(letter);
         update_guesses_remaining();
     }
-    // If all letters completed
+    // If all letters completed end game w/ win
     if (letterCount == wordLength) {
         end_game("Win", word);
     }
@@ -155,25 +167,26 @@ function do_stuff(word, letter, letterCount) {
 
 // Updates current word with correct letters
 function update_current_word(idx, l) {
-    document.getElementById("u-" + idx).innerHTML = l;
+    document.getElementById("u-" + idx).textContent = l;
 }
 
 // Updates used letters list
 function update_used_letters(l) {
-    var span = document.createElement('span');
-    span.innerHTML = l;
-    usedLettersDisplay.appendChild(span);
+    var usedLetter = document.createElement('span');
+    usedLetter.innerHTML = l;
+    usedLettersDisplay.appendChild(usedLetter);
 }
 
-// Updates lives remaining
+// Updates guesses remaining
 function update_guesses_remaining() {
-    var remaining = guessesDisplay.innerText;
+    var remaining = guessesDisplay.textContent;
     remaining = parseInt(remaining) - 1;
+    // If 0 guesses remaining update man & end game with loss
     if (remaining == 0) {
         update_man(0);
         setTimeout(function() { end_game("lost", word); }, 1000);
     }
-    guessesDisplay.innerHTML = remaining;
+    guessesDisplay.textContent = remaining;
     update_man(remaining);
 }
 
@@ -186,21 +199,24 @@ function end_game(status) {
         reset_keyboard();
     }
     // Sounds from Retro.sx
+    // Update display with game outcome and play sound at game end
     var sound = "";
     if (status == "Win") {
         var gamesWon = parseInt(sessionStorage.getItem("gameWins"));
         gamesWon = gamesWon + 1;
         sessionStorage.setItem("gameWins", gamesWon);
-        gameEndMsg.innerHTML = "YOU WIN!";
+        gameEndMsg.textContent = "YOU WIN!";
         sound = "./assets/sounds/win.mp3";
     } else {
-        gameEndMsg.innerHTML = "GAME OVER!";
+        gameEndMsg.textContent = "GAME OVER!";
         sound = "./assets/sounds/player-down.mp3";
     }
     var audio = new Audio(sound);
     audio.play();
-    wordDisplay.innerHTML = word;
-    gameMsg.innerHTML = "Press any key to get started!";
+    // Display word
+    wordDisplay.textContent = word;
+    // Update game message for next game
+    gameMsg.textContent = "Press any key to get started!";
     gameEndDisplay.classList.remove("hidden");
     game.classList.remove("game-started");
 }
@@ -209,16 +225,6 @@ function end_game(status) {
 function is_letter(key) {
     var objRegExp = /^[a-z]+$/;
     return objRegExp.test(key);
-}
-
-// Resets the game display
-function reset_game() {
-    usedLettersDisplay.innerHTML = '';
-    usedLettersList.length = 0;
-    letterCount = 0;
-    // reset canvas
-    ctx.clearRect(0, 0, hangman.width, hangman.height);
-    ctx.beginPath();
 }
 
 // Draws the hangman canvas
