@@ -17,7 +17,7 @@ var guessesAllowed = 6,
     letterCount = 0,
     limeGreen = "#99f927";
 // Selectors
-var game = document.getElementById("Game"),
+var game = document.getElementById("GameContainer"),
     banner = document.getElementById("Banner"),
     gameDisplay = document.getElementById("GameDisplay"),
     hangmanImg = document.getElementById("TheHangman"),
