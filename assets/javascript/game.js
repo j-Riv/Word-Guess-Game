@@ -17,7 +17,7 @@ var guessesAllowed = 6,
     letterCount = 0,
     limeGreen = "#99f927";
 // Selectors
-var game = document.getElementById("GameContainer"),
+var gameContainer = document.getElementById("GameContainer"),
     banner = document.getElementById("Banner"),
     gameDisplay = document.getElementById("GameDisplay"),
     hangmanImg = document.getElementById("TheHangman"),
@@ -54,7 +54,7 @@ function play(key) {
     // Update message after first key press
     gameMsg.innerHTML = "";
     // Game started
-    if (game.classList.contains("game-started")) {
+    if (gameContainer.classList.contains("game-started")) {
         // Check if key pressed is a letter
         if (is_letter(key)) {
             // Check if the letter has been used
@@ -102,9 +102,8 @@ function game_setup(word) {
     }
     winsDisplay.textContent = wins;
     // Build underscores
-    var wordLength = word.length,
-        underscores = '';
-    for (var i = 0; i < wordLength; i++) {
+    var underscores = '';
+    for (var i = 0; i < word.length; i++) {
         underscores += '<span id="u-' + i + '">_</span>';
     }
     // Insert underscores
@@ -115,37 +114,35 @@ function game_setup(word) {
         gameDisplay.classList.remove("hidden");
     }
     // Mobile keyboard - build and display
-    if (game.classList.contains("is-mobile")) {
+    if (gameContainer.classList.contains("is-mobile")) {
         mobileKeyboard.classList.remove("hidden");
     }
     // Hide end game display if shown
-    if (game.classList.contains("game-ended")) {
+    if (gameContainer.classList.contains("game-ended")) {
         gameEndDisplay.classList.add("hidden");
-        game.classList.remove("game-ended");
+        gameContainer.classList.remove("game-ended");
     }
     // Add class to body
-    game.classList.add("game-started");
+    gameContainer.classList.add("game-started");
 }
 
 // For lack of a better name
 function do_stuff(word, letter, letterCount) {
-    var wordLength = word.length,
-        index = [],
+    var index = [],
         letter = letter.toUpperCase(),
         word = word.toUpperCase();
     // Chec for multiple occurences
-    for (var i = 0; i < wordLength; i++) {
+    for (var i = 0; i < word.length; i++) {
         var character = word.charAt(i);
         if (character == letter) {
             index.push(i);
         }
     }
-    var indexLength = index.length;
     // If character in word
-    if (indexLength > 0) {
+    if (index.length > 0) {
         // if character in word more than once
-        if (indexLength > 1) {
-            for (var x = 0; x < indexLength; x++) {
+        if (index.length > 1) {
+            for (var x = 0; x < index.length; x++) {
                 update_current_word(index[x], letter);
                 letterCount = letterCount + 1;
             }
@@ -159,42 +156,42 @@ function do_stuff(word, letter, letterCount) {
         update_guesses_remaining();
     }
     // If all letters completed end game w/ win
-    if (letterCount == wordLength) {
+    if (letterCount == word.length) {
         end_game("Win", word);
     }
     return letterCount;
 }
 
 // Updates current word with correct letters
-function update_current_word(idx, l) {
-    document.getElementById("u-" + idx).textContent = l;
+function update_current_word(index, letter) {
+    document.getElementById("u-" + index).textContent = letter;
 }
 
 // Updates used letters list
-function update_used_letters(l) {
+function update_used_letters(letter) {
     var usedLetter = document.createElement('span');
-    usedLetter.innerHTML = l;
+    usedLetter.innerHTML = letter;
     usedLettersDisplay.appendChild(usedLetter);
 }
 
 // Updates guesses remaining
 function update_guesses_remaining() {
-    var remaining = guessesDisplay.textContent;
-    remaining = parseInt(remaining) - 1;
+    var guessCount = guessesDisplay.textContent;
+    guessCount = parseInt(guessCount) - 1;
     // If 0 guesses remaining update man & end game with loss
-    if (remaining == 0) {
+    if (guessCount == 0) {
         update_man(0);
         setTimeout(function() { end_game("lost", word); }, 1000);
     }
-    guessesDisplay.textContent = remaining;
-    update_man(remaining);
+    guessesDisplay.textContent = guessCount;
+    update_man(guessCount);
 }
 
 // Ends the game
 function end_game(status) {
-    game.classList.add("game-ended");
+    gameContainer.classList.add("game-ended");
     gameDisplay.classList.add("hidden");
-    if (game.classList.contains("is-mobile")) {
+    if (gameContainer.classList.contains("is-mobile")) {
         mobileKeyboard.classList.add("hidden");
         reset_keyboard();
     }
@@ -218,7 +215,7 @@ function end_game(status) {
     // Update game message for next game
     gameMsg.textContent = "Press any key to get started!";
     gameEndDisplay.classList.remove("hidden");
-    game.classList.remove("game-started");
+    gameContainer.classList.remove("game-started");
 }
 
 // Returns true if key is a letter
@@ -348,7 +345,7 @@ function mobile_check() {
     console.log("w.innerWidth || e.clientWidth || g.clientWidth" + width);
     // if mobile run mobile functions
     if (width <= 768) {
-        game.classList.add("is-mobile");
+        gameContainer.classList.add("is-mobile");
         mobile_start();
         build_keyboard();
         mobile_keypressed();
