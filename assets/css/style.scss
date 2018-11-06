@@ -9,6 +9,7 @@
         
         .hidden {
             display: none !important;
+            height: 0 !important;
         }
         /* Animations */
         
@@ -105,7 +106,6 @@
                 }
                 #GameEndedDisplay {
                     text-align: center;
-                    height: $display_height;
                     #EndMsg {
                         font-size: 10em;
                         font-size: 8vw;
@@ -126,10 +126,30 @@
         @media only screen and (max-width: $medium) {
             body {
                 .wrapper {
-                    min-height: 0;
-                    min-height: 0;
-                    display: block;
-                    align-items: unset;
+                    // min-height: 0;
+                    // min-height: 0;
+                    // display: block;
+                    // align-items: unset;
+                    #GameDisplay {
+                        #Left {
+                            height: 200px;
+                            #HangmanCanvas {
+                                width: 150px;
+                                height: 200px;
+                            }
+                        }
+                        #Right {
+                            height: 300px;
+                            p {
+                                margin-bottom: 10px;
+                            }
+                            #CurrentWord {
+                                span {
+                                    font-size: 2em;
+                                }
+                            }
+                        }
+                    }
                     // Mobile Keyboard only displays <= 768w
                     #MobileStart {
                         padding: 10px 20px;
@@ -151,6 +171,8 @@
                         text-align: center;
                         padding: 20px 0;
                         ul {
+                            padding: 0;
+                            margin-bottom: 5px;
                             li {
                                 display: inline-block;
                                 font-size: 1em;

@@ -1,6 +1,7 @@
 /* Helpers */
 .hidden {
   display: none !important;
+  height: 0 !important;
 }
 
 /* Animations */
@@ -103,7 +104,6 @@ body .wrapper #GameDisplay #UsedLettersDisplay span {
 
 body .wrapper #GameEndedDisplay {
   text-align: center;
-  height: 400px;
 }
 
 body .wrapper #GameEndedDisplay #EndMsg {
@@ -122,11 +122,21 @@ body .wrapper #GameEndedDisplay #TheWord {
 
 /* Quaries */
 @media only screen and (max-width: 768px) {
-  body .wrapper {
-    min-height: 0;
-    min-height: 0;
-    display: block;
-    align-items: unset;
+  body .wrapper #GameDisplay #Left {
+    height: 200px;
+  }
+  body .wrapper #GameDisplay #Left #HangmanCanvas {
+    width: 150px;
+    height: 200px;
+  }
+  body .wrapper #GameDisplay #Right {
+    height: 300px;
+  }
+  body .wrapper #GameDisplay #Right p {
+    margin-bottom: 10px;
+  }
+  body .wrapper #GameDisplay #Right #CurrentWord span {
+    font-size: 2em;
   }
   body .wrapper #MobileStart {
     padding: 10px 20px;
@@ -147,6 +157,10 @@ body .wrapper #GameEndedDisplay #TheWord {
     display: block;
     text-align: center;
     padding: 20px 0;
+  }
+  body .wrapper #MobileKeyboard ul {
+    padding: 0;
+    margin-bottom: 5px;
   }
   body .wrapper #MobileKeyboard ul li {
     display: inline-block;
