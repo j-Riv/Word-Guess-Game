@@ -17,7 +17,8 @@ function game_init() {
             "GPU",
             "Fans",
             "SSD",
-            "HDD"
+            "HDD",
+            "CPU"
         ],
         word: null,
         letterCount: 0,
@@ -25,7 +26,9 @@ function game_init() {
         guessCount: 6,
         wins: 0,
         isMobile: false,
-        message: "Press any key to get started!"
+        message: "Press any key to get started!",
+        hasStarted: false,
+        hasEnded: false
     }
 }
 
@@ -50,10 +53,12 @@ function play_game(key) {
         // Set game object
         game.word = game.wordList[Math.floor(Math.random() * game.wordList.length)];
         setup();
+        // console.log("Word: " + game.word);
     } else {
         // Play
+        // console.log("Key: " + key);
         // Updates all on screen displays
-        if (gameContainer.classList.contains("game-started")) {
+        if (game.hasStarted) {
             // Check if key pressed is a letter
             if (is_letter(key)) {
                 // Check if the letter has been used
@@ -161,12 +166,12 @@ function setup() {
         mobileKeyboard.classList.remove("hidden");
     }
     // Hide end game display if shown
-    if (gameContainer.classList.contains("game-ended")) {
+    if (game.hasEnded) {
         gameEndDisplay.classList.add("hidden");
-        gameContainer.classList.remove("game-ended");
+        game.hasEnded = false;
     }
     // Add class to body
-    gameContainer.classList.add("game-started");
+    game.hasStarted = true;
     gameMsg.textContent = "";
 }
 
@@ -184,7 +189,7 @@ function update_used_letters(letter) {
 
 // Ends the game
 function end_game(status) {
-    gameContainer.classList.add("game-ended");
+    game.hasEnded = true;
     gameDisplay.classList.add("hidden");
     if (game.isMobile) {
         mobileKeyboard.classList.add("hidden");
@@ -210,7 +215,7 @@ function end_game(status) {
     // Update game message for next game
     gameMsg.textContent = game.message;
     gameEndDisplay.classList.remove("hidden");
-    gameContainer.classList.remove("game-started");
+    game.hasStarted = false;
     // Reset Game
     reset_game();
 }
