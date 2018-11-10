@@ -304,11 +304,16 @@ function update_man(n) {
 
 // Desktop Methods
 // Detects keyboard keypress
+// Locks keyboard after keypress to prevent fast keypress
+var locked = false;
+
 function keypressed(e) {
-    // Get character
-    // var key = event.charCode || event.keyCode; // Get the Unicode value
-    // key = String.fromCharCode(key); // Convert the value into a character
-    play_game(e.key);
+    console.log("Locked: " + locked);
+    if (!locked) {
+        locked = true;
+        play_game(e.key);
+    }
+    setTimeout(function() { locked = false; }, 200);
 }
 
 // Mobile Methods
