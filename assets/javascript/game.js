@@ -53,7 +53,7 @@ function play_game(key) {
         // Set game object
         game.word = game.wordList[Math.floor(Math.random() * game.wordList.length)];
         setup();
-        // console.log('Word: ' + game.word);
+        console.log('Word: ' + game.word);
     } else {
         // Play
         // console.log('Key: ' + key);
