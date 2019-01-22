@@ -163,6 +163,7 @@ function setup() {
     }
     // Mobile keyboard - build and display
     if (game.isMobile) {
+        banner.classList.add("hidden");
         mobileKeyboard.classList.remove("hidden");
     }
     // Hide end game display if shown
@@ -214,6 +215,7 @@ function end_game(status) {
     wordDisplay.textContent = game.word;
     // Update game message for next game
     gameMsg.textContent = game.message;
+    banner.classList.remove("hidden");
     gameEndDisplay.classList.remove("hidden");
     game.hasStarted = false;
     // Reset Game
