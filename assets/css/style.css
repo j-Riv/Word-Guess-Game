@@ -89,10 +89,6 @@ body .wrapper #GameDisplay #Right {
   height: 400px;
 }
 
-body .wrapper #GameDisplay #Right .row {
-  height: 25%;
-}
-
 body .wrapper #GameDisplay #CurrentWord span {
   padding: 5px;
   font-size: 2.3em;
@@ -130,7 +126,7 @@ body .wrapper #GameEndedDisplay #TheWord {
     height: 200px;
   }
   body .wrapper #GameDisplay #Right {
-    height: 300px;
+    height: 250px;
   }
   body .wrapper #GameDisplay #Right p {
     margin-bottom: 10px;
