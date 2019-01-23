@@ -1,4 +1,4 @@
-function game_init() {
+function gameInit() {
     game = {
         wordList: [
             'Windows',
@@ -33,21 +33,21 @@ function game_init() {
 }
 
 // Selectors
-var gameContainer = document.getElementById('GameContainer'),
-    banner = document.getElementById('Banner'),
-    gameDisplay = document.getElementById('GameDisplay'),
-    hangmanImg = document.getElementById('TheHangman'),
-    gameMsg = document.getElementById('GameMsg'),
-    winsDisplay = document.getElementById('WinsDisplay'),
-    currentWord = document.getElementById('CurrentWord'),
-    guessesDisplay = document.getElementById('GuessesDisplay'),
-    usedLettersDisplay = document.getElementById('UsedLettersDisplay'),
-    gameEndDisplay = document.getElementById('GameEndedDisplay'),
-    wordDisplay = document.getElementById('TheWord'),
-    gameEndMsg = document.getElementById('EndMsg'),
-    mobileKeyboard = document.getElementById('MobileKeyboard');
+var gameContainer = document.getElementById('GameContainer');
+var banner = document.getElementById('Banner');
+var gameDisplay = document.getElementById('GameDisplay');
+var hangmanImg = document.getElementById('TheHangman');
+var gameMsg = document.getElementById('GameMsg');
+var winsDisplay = document.getElementById('WinsDisplay');
+var currentWord = document.getElementById('CurrentWord');
+var guessesDisplay = document.getElementById('GuessesDisplay');
+var usedLettersDisplay = document.getElementById('UsedLettersDisplay');
+var gameEndDisplay = document.getElementById('GameEndedDisplay');
+var wordDisplay = document.getElementById('TheWord');
+var gameEndMsg = document.getElementById('EndMsg');
+var mobileKeyboard = document.getElementById('MobileKeyboard');
 
-function play_game(key) {
+function playGame(key) {
     // Game object not set
     if (game.word == null) {
         // Set game object
@@ -60,7 +60,7 @@ function play_game(key) {
         // Updates all on screen displays
         if (game.hasStarted) {
             // Check if key pressed is a letter
-            if (is_letter(key)) {
+            if (isLetter(key)) {
                 // Check if the letter has been used
                 // If letter hasn't been used play the game
                 var isUsedLetter = game.usedLettersList.includes(key);
@@ -83,29 +83,29 @@ function play_game(key) {
                             // if character in word more than once
                             if (index.length > 1) {
                                 for (var x = 0; x < index.length; x++) {
-                                    update_current_word(index[x], key);
+                                    updateCurrentWord(index[x], key);
                                     game.letterCount = game.letterCount + 1;
                                 }
                             } else {
-                                update_current_word(index[0], key);
+                                updateCurrentWord(index[0], key);
                                 game.letterCount = game.letterCount + 1;
                             }
-                            update_used_letters(key);
+                            updateUsedLetters(key);
                             // If all letters completed end game w/ win
                             if (game.letterCount == game.word.length) {
-                                end_game('Win');
+                                endGame('Win');
                             }
                         } else {
-                            update_used_letters(key);
+                            updateUsedLetters(key);
                             // update_guesses_remaining();
                             game.guessCount = game.guessCount - 1;
                             if (game.guessCount === 0) {
-                                end_game('Lost');
+                                endGame('Lost');
                             }
                         }
                     } else {
                         // Game over
-                        setTimeout(function() { end_game('Lost'); }, 1000);
+                        setTimeout(function() { endGame('Lost'); }, 1000);
                     }
                     // Update used letters list
                     game.usedLettersList.push(key);
@@ -120,7 +120,7 @@ function play_game(key) {
 function update() {
     // fix to update all displays at end of each play
     // Canvas
-    update_man(game.guessCount);
+    updateMan(game.guessCount);
     // Games Won
     winsDisplay.textContent = game.wins;
     // Guess Count / Remaining
@@ -163,7 +163,7 @@ function setup() {
     }
     // Mobile keyboard - build and display
     if (game.isMobile) {
-        reset_keyboard();
+        resetKeyboard();
         banner.classList.add('hidden');
         mobileKeyboard.classList.remove('hidden');
     }
@@ -178,24 +178,24 @@ function setup() {
 }
 
 // Updates current word with correct letters
-function update_current_word(index, letter) {
+function updateCurrentWord(index, letter) {
     document.getElementById('u-' + index).textContent = letter;
 }
 
 // Updates used letters list
-function update_used_letters(letter) {
+function updateUsedLetters(letter) {
     var usedLetter = document.createElement('span');
     usedLetter.innerHTML = letter;
     usedLettersDisplay.appendChild(usedLetter);
 }
 
 // Ends the game
-function end_game(status) {
+function endGame(status) {
     game.hasEnded = true;
     gameDisplay.classList.add('hidden');
     if (game.isMobile) {
         mobileKeyboard.classList.add('hidden');
-        // reset_keyboard();
+        // resetKeyboard();
     }
     // Sounds from Retro.sx
     // Update display with game outcome and play sound at game end
@@ -220,11 +220,11 @@ function end_game(status) {
     gameEndDisplay.classList.remove('hidden');
     game.hasStarted = false;
     // Reset Game
-    reset_game();
+    resetGame();
 }
 
 // Resets Game Object
-function reset_game() {
+function resetGame() {
     game.word = null;
     game.letterCount = 0;
     game.usedLettersList.length = 0;
@@ -232,7 +232,7 @@ function reset_game() {
 }
 
 // Helper Methods
-function is_letter(key) {
+function isLetter(key) {
     var objRegExp = /^[a-z]+$/;
     return objRegExp.test(key);
 }
@@ -296,7 +296,7 @@ function rightLeg() {
 var bodyPart = [rightLeg, leftLeg, rightArm, leftArm, torso, head];
 
 // Updates the hangman
-function update_man(n) {
+function updateMan(n) {
     if (n !== 6) {
         bodyPart[n]();
     }
@@ -311,14 +311,14 @@ function keypressed(e) {
     console.log('Locked: ' + locked);
     if (!locked) {
         locked = true;
-        play_game(e.key);
+        playGame(e.key);
     }
     setTimeout(function() { locked = false; }, 200);
 }
 
 // Mobile Methods
 // Builds the mobile keyboard
-function build_keyboard() {
+function buildKeyboard() {
     var keyRows = [
         ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
         ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
@@ -343,9 +343,9 @@ function build_keyboard() {
 }
 
 // Resets the mobile keyboard
-function reset_keyboard() {
+function resetKeyboard() {
     mobileKeyboard.innerHTML = '';
-    build_keyboard();
+    buildKeyboard();
 }
 
 // Gets the element clicked
@@ -355,12 +355,12 @@ function getEventTarget(e) {
 }
 
 // Mobile keypress
-function mobile_keypressed() {
+function mobileKeypressed() {
     var key = '';
     mobileKeyboard.onclick = function(event) {
         var target = getEventTarget(event);
         key = target.innerHTML;
-        play_game(key);
+        playGame(key);
         // Disable key
         var pressedKey = document.getElementById('letter-' + key);
         pressedKey.classList.add('key-disabled');
@@ -368,15 +368,15 @@ function mobile_keypressed() {
 }
 
 // Mobile start
-function mobile_start() {
+function mobileStart() {
     banner.onclick = function(event) {
         mobileKeyboard.classList.remove('hidden');
-        play_game('');
+        playGame('');
     }
 }
 
 // Checks if on mobile (screen width)
-function mobile_check() {
+function mobileCheck() {
     var w = window,
         d = document,
         de = d.documentElement,
@@ -388,12 +388,12 @@ function mobile_check() {
     if (width <= 768) {
         console.log('Is Mobile');
         gameContainer.classList.add('is-mobile');
-        mobile_start();
-        mobile_keypressed();
+        mobileStart();
+        mobileKeypressed();
     }
 }
 
 // Check if mobile
-mobile_check();
+mobileCheck();
 
-game_init();
+gameInit();
