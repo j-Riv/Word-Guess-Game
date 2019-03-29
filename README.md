@@ -6,9 +6,6 @@ Hangman style game web app created to showcase use of javascript.
 
 ![Hangman - Desktop](/assets/images/screenshots/hangman-desktop.gif)
 
-## Tecnologies Used:
-* Javascript
-
 ## Built With:
 * [Bootstrap](https://getbootstrap.com/)
 
